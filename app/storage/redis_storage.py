@@ -63,7 +63,7 @@ class AioRedisStorade(ABCStorage, Singleton):
         if (current_data := await self._aio_redis.get(str(today))):
             yield (today, json_to_dict(current_data))
         else:
-            (yesterday, json_to_dict(self._aio_redis.get(str(yesterday))))
+           yield (yesterday, json_to_dict(await self._aio_redis.get(str(yesterday))))
             
     async def add(self, data) -> None:
        
@@ -80,8 +80,3 @@ class AioRedisStorade(ABCStorage, Singleton):
     
     async def fetch_all(self) -> Awaitable[list[ResponseData]]:
         return [(date, currency) async for date, currency in self._get_gener_data()]
-    
-    
-    
-    
-
