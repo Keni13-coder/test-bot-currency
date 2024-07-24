@@ -74,6 +74,7 @@ async def main():
 
     finally:
         logger.info('close bot...')
+        await scheduler.shutdown()
         await aio_redis_storage.aio_redis.aclose()
         await bot.session.close()
         
